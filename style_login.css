@@ -1,0 +1,112 @@
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f3f5f4;
+  font-family: "Poppins", sans-serif;
+}
+
+#container {
+  width: min(100%, 440px);
+  padding: 36px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(19, 15, 64, 0.12);
+}
+
+#container form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#container label {
+  margin-bottom: -12px;
+  color: #555;
+  font-size: 14px;
+}
+
+#SignInh2 {
+  margin: 0 0 8px;
+  color: #130f40;
+  text-align: center;
+}
+
+#container input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #d5dad7;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+}
+
+#container input:focus {
+  border-color: #198754;
+  outline: 2px solid rgba(25, 135, 84, 0.18);
+}
+
+#btn1 {
+  min-height: 46px;
+  border: 0;
+  border-radius: 6px;
+  background: #198754;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#btn1:hover {
+  background: #146c43;
+}
+
+#btn1:disabled,
+#password-reset:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+#password-reset {
+  border: 0;
+  background: transparent;
+  color: #198754;
+  cursor: pointer;
+  font: inherit;
+}
+
+#container h3,
+#container p {
+  margin: 0;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#auth-message:empty {
+  display: none;
+}
+
+#auth-message.auth-message-error {
+  color: #b42318;
+}
+
+#auth-message.auth-message-success {
+  color: #146c43;
+}
+
+#container a,
+#SignupNowbtn {
+  color: #198754;
+}
+
+#container p {
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  #container {
+    padding: 26px 20px;
+  }
+}

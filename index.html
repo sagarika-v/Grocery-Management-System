@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Grocery management app by Sathya</title>
+<!-- Code for font awesome cdn -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Code for font awesome cdn -->
+
+<!-- Code for linking css file -->
+<link rel="stylesheet" type="text/css" href="style.css">
+<!-- Code for linking css file -->
+
+
+
+<link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!-- header section -->
+<header class="header">
+	<a href="#" class="logo"> <i class="fa fa-shopping-basket" aria-hidden="true"></i> Grocery </a>
+
+
+<nav class="navbar">
+	<a href="#home">home</a>
+	<a href="#features">features</a>
+	<a href="#products">products</a>
+	<a href="#categories">categories</a>
+	<a href="#review">review</a>
+
+</nav>
+
+<div class="icons">
+	<div class="fa fa-bars" id="menu-btn"></div>
+	<div class="fa fa-search" id="search-btn"></div>
+	<div class="fa fa-shopping-cart" id="cart-btn"></div>
+	<div class="fa fa-user" id="login-btn"></div>	
+</div>
+
+<form class="search-form">
+	<input type="search" id="search-box" placeholder="search here......">
+	<label for="search-box" class="fa fa-search"></label>
+</form>
+
+
+
+<div class="shopping-cart">
+	<div class="cart-items" id="cart-items"></div>
+	<p class="cart-empty" id="cart-empty">Your cart is empty.</p>
+	<div class="total" id="cart-total">Total: ₹0</div>
+	<button type="button" class="btn" id="checkout-btn" hidden>Proceed to checkout</button>
+	<p class="cart-status" id="cart-status" role="status" aria-live="polite"></p>
+</div>
+
+
+<div class="login-form">
+	<div id="signed-out-menu">
+		<h3>Welcome</h3>
+		<p>Sign in or create an account to continue.</p>
+		<a href="login.html" class="btn">Sign In</a>
+		<a href="user.html" class="btn">Create Account</a>
+	</div>
+	<div id="signed-in-menu" hidden>
+		<h3>Welcome</h3>
+		<p id="auth-email"></p>
+		<button type="button" class="btn" id="logout-btn">Log out</button>
+		<p class="auth-error" id="logout-error" role="status" aria-live="polite"></p>
+	</div>
+</div>
+
+
+
+
+</header>
+<!-- header section -->
+
+<dialog class="checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-title">
+	<form id="checkout-form">
+		<div class="checkout-heading">
+			<h2 id="checkout-title">Checkout</h2>
+			<button type="button" class="checkout-close" id="checkout-close" aria-label="Close checkout">&times;</button>
+		</div>
+		<p class="checkout-summary" id="checkout-summary"></p>
+
+		<fieldset class="checkout-fieldset">
+			<legend>Delivery address</legend>
+			<label for="saved-addresses">Choose a saved address</label>
+			<select id="saved-addresses">
+				<option value="">Enter a new address</option>
+			</select>
+			<div class="checkout-address-grid">
+				<label for="checkout-name">Full name
+					<input id="checkout-name" name="name" autocomplete="name" required maxlength="80">
+				</label>
+				<label for="checkout-phone">Mobile number
+					<input id="checkout-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-digit Indian number" required>
+				</label>
+				<label class="checkout-address-wide" for="checkout-street">House / flat / street
+					<input id="checkout-street" name="street" autocomplete="street-address" required maxlength="160">
+				</label>
+				<label for="checkout-city">City
+					<input id="checkout-city" name="city" autocomplete="address-level2" required maxlength="80">
+				</label>
+				<label for="checkout-state">State
+					<input id="checkout-state" name="state" autocomplete="address-level1" required maxlength="80">
+				</label>
+				<label for="checkout-pincode">PIN code
+					<input id="checkout-pincode" name="pincode" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{6}" maxlength="6" required>
+				</label>
+			</div>
+			<label class="checkout-save-address" for="save-address">
+				<input type="checkbox" id="save-address">
+				Save this address on this device
+			</label>
+			<p class="checkout-message" id="address-status" role="status" aria-live="polite"></p>
+		</fieldset>
+
+		<fieldset class="checkout-fieldset">
+			<legend>Payment method</legend>
+			<p class="payment-note">Online payments are not connected yet. No online payment will be taken.</p>
+			<div class="payment-methods">
+				<label class="payment-method"><input type="radio" name="payment-method" value="phonepe" required> PhonePe</label>
+				<label class="payment-method"><input type="radio" name="payment-method" value="google-pay"> Google Pay</label>
+				<label class="payment-method"><input type="radio" name="payment-method" value="paytm"> Paytm</label>
+				<label class="payment-method"><input type="radio" name="payment-method" value="card"> Credit / debit card</label>
+				<label class="payment-method"><input type="radio" name="payment-method" value="cod" checked> Cash on Delivery</label>
+			</div>
+		</fieldset>
+
+		<p class="checkout-message" id="checkout-status" role="status" aria-live="polite"></p>
+		<button type="submit" class="btn" id="place-order-btn">Place order</button>
+		<p class="checkout-demo-note">Demo checkout: placing a COD order clears the cart here, but does not submit an order to the store.</p>
+	</form>
+</dialog>
+
+
+<!-- banner section -->
+
+<section class="home" id="home">
+	<div class="content">
+		<h3>Fresh And <span>Organic </span>Products For You</h3>
+		<p>This Website is designed by our Team.</p>
+
+		<a href="#products" class="btn">shop now</a>
+	</div>
+	
+</section>
+
+<!-- banner section -->
+
+<!-- our features section -->
+
+
+<section class="features" id="features">
+	<h1 class="heading"> our<span>Features</span></h1>
+
+
+<div class="box-container">
+	<div class="box">
+		<img src="images/feature-img-1.png">
+		<h3>Fresh And Organic</h3>
+	</div>
+
+	<div class="box">
+		<img src="images/feature-img-2.png">
+		<h3>Free Delivery</h3>
+	</div>
+
+	<div class="box">
+		<img src="images/feature-img-3.png">
+		<h3>Easy Payments</h3>
+	</div>
+</div>
+
+
+
+
+
+</section>
+
+
+
+<!-- our products section -->
+
+<section class="products" id="products">
+	<h1 class="heading"> our <span>products</span></h1>
+	<div class="product-filter-controls" id="product-filter-controls" hidden>
+		<p id="product-filter-label"></p>
+		<button type="button" class="btn" id="show-all-products">Show all products</button>
+	</div>
+	<p class="no-category-products" id="no-category-products" role="status" hidden></p>
+
+	<div class="product-list" id="product-list">
+	<div class="swiper product-slider">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide box" data-category="fruits">
+		     <img src="images/orange-india-photo.jpg" alt="Oranges at a market in West Bengal, India">
+		     <h1>fresh orange</h1>
+		     <div class="price">₹120/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+<div class="swiper-slide box" data-category="vegetables">
+		     <img src="images/onion-india-photo.jpg" alt="Onion stall in Meerut, India">
+		     <h1>fresh onion</h1>
+		     <div class="price">₹50/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+
+
+			<div class="swiper-slide box" data-category="meat">
+		     <img src="images/chicken-india-photo.jpg" alt="Poultry stall in Kolkata, India">
+		     <h1>fresh chicken</h1>
+		     <div class="price">₹250/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+
+			<div class="swiper-slide box" data-category="fruits">
+		     <img src="images/lemon-india-photo.jpg" alt="Lemons and flowers at an Indian market">
+		     <h1>fresh lemon</h1>
+		     <div class="price">₹60/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="dairy">
+		     <img src="images/milk-india-photo.jpg" alt="Milk vendor with traditional brass milk cans in Punjab, India">
+		     <h1>fresh milk</h1>
+		     <div class="price">₹60/litre</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="dairy">
+		     <img src="images/curd-photo.jpg" alt="Curd in a traditional Manipuri earthen pot">
+		     <h1>fresh curd</h1>
+		     <div class="price">₹60/500g</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="dairy">
+		     <img src="images/eggs-photo.jpg" alt="Fresh eggs at Ooty Municipal Market, Tamil Nadu, India">
+		     <h1>eggs (dozen)</h1>
+		     <div class="price">₹90/dozen</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="dairy">
+		     <img src="images/roti-photo.jpg" alt="Chapati being made in Panchkula, India">
+		     <h1>fresh roti</h1>
+		     <div class="price">₹30/5 pcs</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="fruits">
+		     <img src="images/banana-photo.jpg" alt="Bananas at Koyambedu Market, Chennai, India">
+		     <h1>fresh banana</h1>
+		     <div class="price">₹60/dozen</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="fruits">
+		     <img src="images/mango-photo.jpg" alt="Kesar mangoes at a Mumbai market">
+		     <h1>fresh mango</h1>
+		     <div class="price">₹150/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="fruits">
+		     <img src="images/papaya-photo.jpg" alt="Ripe papaya from West Bengal, India">
+		     <h1>fresh papaya</h1>
+		     <div class="price">₹60/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="dairy">
+		     <img src="images/lassi-photo.jpg" alt="Lassi served in Varanasi, India">
+		     <h1>fresh lassi</h1>
+		     <div class="price">₹50/250ml</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+		</div>
+	</div>
+
+
+
+<div class="swiper product-slider">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide box" data-category="vegetables">
+					     <img src="images/cabbage-india-photo.jpg" alt="Cabbages at Koyambedu Market, India">
+		     <h1>fresh cabbage</h1>
+		     <div class="price">₹40/each</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+<div class="swiper-slide box" data-category="vegetables">
+		     <img src="images/potato-india-photo.jpg" alt="Potatoes at Koyambedu Market, Chennai, India">
+		     <h1>fresh Potato</h1>
+		     <div class="price">₹40/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+
+
+			<div class="swiper-slide box" data-category="fruits">
+		     <img src="images/guava-photo.jpg" alt="Guava seller in West Bengal, India">
+		     <h1>fresh guava</h1>
+		     <div class="price">₹80/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+
+			<div class="swiper-slide box" data-category="vegetables">
+		     <img src="images/carrot-india-photo.jpg" alt="Carrots at Koyambedu Market, Chennai, India">
+		     <h1>fresh carrot</h1>
+		     <div class="price">₹60/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="dairy">
+		     <img src="images/paneer-photo.jpg" alt="Fresh paneer cheese">
+		     <h1>fresh paneer</h1>
+		     <div class="price">₹250/200g</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="vegetables">
+		     <img src="images/tomato-india-photo.jpg" alt="Tomatoes at Koyambedu Market, Chennai, India">
+		     <h1>fresh tomato</h1>
+		     <div class="price">₹40/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="vegetables">
+		     <img src="images/cucumber-india-photo.jpg" alt="Dosakai cucumber at a market in Guntur, India">
+		     <h1>fresh dosakai cucumber</h1>
+		     <div class="price">₹30/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="meat">
+		     <img src="images/mutton-india-photo.jpg" alt="Chicken and mutton vendor in Hyderabad, India">
+		     <h1>fresh mutton</h1>
+		     <div class="price">₹700/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="meat">
+		     <img src="images/fish-india-photo.jpg" alt="Freshwater fish at Uzan Bazar fish market, India">
+		     <h1>fresh fish</h1>
+		     <div class="price">₹300/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="meat">
+		     <img src="images/prawns-photo.jpg" alt="Prawns at Kakinada Fish Market, Andhra Pradesh">
+		     <h1>fresh prawns</h1>
+		     <div class="price">₹450/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="meat">
+		     <img src="images/crab-photo.jpg" alt="Crabs at Kakinada Fish Market, Andhra Pradesh">
+		     <h1>fresh crab</h1>
+		     <div class="price">₹350/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+			<div class="swiper-slide box" data-category="meat">
+		     <img src="images/pomfret-photo.jpg" alt="Fresh black pomfret from India">
+		     <h1>fresh pomfret</h1>
+		     <div class="price">₹400/kg</div>
+		     <div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+		     <a href="" class="btn">add to cart</a>
+			</div>
+
+		</div>
+	</div>
+
+	</div>
+
+</section>
+
+
+
+<!-- our products section -->
+
+
+<!-- our Categories section -->
+
+<section class="categories" id="categories">
+	<h1 class="heading"> product <span>categories</span></h1>
+
+	<div class="box-container">
+		<div class="box">
+			<img src="images/cat-1.png">
+			<h3>Vegetables</h3>
+			<p>Upto 45% off</p>
+			<a href="#products" class="btn" data-product-category="vegetables">shop now</a>
+		</div>
+
+
+		<div class="box">
+			<img src="images/cat-2.png">
+			<h3>Fresh Fruits</h3>
+			<p>Upto 45% off</p>
+			<a href="#products" class="btn" data-product-category="fruits">shop now</a>
+		</div>
+
+
+
+
+
+		<div class="box">
+			<img src="images/cat-3.png">
+			<h3>Dairy Products</h3>
+			<p>Upto 45% off</p>
+			<a href="#products" class="btn" data-product-category="dairy">shop now</a>
+		</div>
+
+
+		<div class="box">
+			<img src="images/cat-4.png">
+			<h3>Fresh Meat</h3>
+			<p>Upto 45% off</p>
+			<a href="#products" class="btn" data-product-category="meat">shop now</a>
+		</div>
+	</div>
+</section>
+
+
+
+
+<!-- our Categories section -->
+
+
+
+<!--  Review section -->
+<section class="review" id="review">
+	<h1 class="heading"> Customer's <span>Review</span></h1>
+
+	<div class="swiper review-slider">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide box">
+				<img src="images/pic-1.png">
+				<p>Always offers great,quality,fresh variety choice of food are reasonably priced.careful packaging and quick delivery always maintained.very pleased.</p>
+				<h3>Rogers </h3>
+				<div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     </div>
+			</div>
+
+			<div class="swiper-slide box">
+				<img src="images/pic-2.png">
+				<p>Everything beautifully packed and wrapped individually.Delivered to the door of my flat which is important to an elderly lady.</p>
+				<h3>Ankita </h3>
+				<div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+			</div>
+
+			<div class="swiper-slide box">
+				<img src="images/pic-3.png">
+				<p>Easy order online, delivered next day. Absolutely perfect 👌🏻 thank you!</p>
+				<h3>Thomson </h3>
+				<div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     </div>
+			</div>
+
+			<div class="swiper-slide box">
+				<img src="images/pic-4.png">
+				<p>Searched numerous sites for my goods and whilst there was some sites that offered different brands and in some case cheaper prices I’m so glad I went with Best Grocery. I will certainly be ordering again</p>
+				<h3>Elison </h3>
+				<div class="stars">
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star"></i>
+		     	<i class="fa fa-star-half"></i>
+		     </div>
+			</div>
+
+			</div>
+		</div>
+
+<!--  Review section -->
+
+
+<!--  footer section -->
+<section class="footer">
+	<div class="box-container">
+		<div class="box">
+			<h3> Groco <i class="fa fa-shopping-basket"></i></h3>
+			<p>We have taken away all the stress associated with shopping for daily essentials, and you can now order all your household products and even buy groceries online without travelling long distances or standing in serpentine queues.</p>
+		</div>
+
+
+
+
+		<div class="box">
+			<h3> Contact Info </h3>
+			<a href="tel:+917780252234" class="links"> <i class="fa fa-phone"></i> +91 7780252234</a>
+			<a href="mailto:grocerymart@gmail.com" class="links"> <i class="fa fa-envelope"></i> grocerymart@gmail.com</a>
+			<a href="#" class="links"> <i class="fa fa-map-marker"></i> Hyderabad, India</a>
+
+			
+		</div>
+
+		<div class="box">
+			<h3> Quick Links </h3>
+			<a href="#" class="links"> <i class="fa fa-arrow-right"></i> Home </a>
+			<a href="#" class="links"> <i class="fa fa-arrow-right"></i> Features</a>
+			<a href="#" class="links"> <i class="fa fa-arrow-right"></i> Products</a>
+			<a href="#" class="links"> <i class="fa fa-arrow-right"></i> Categories</a>
+			<a href="#" class="links"> <i class="fa fa-arrow-right"></i> Review</a>
+		</div>
+
+	</div>
+</section>
+
+<!--  footer section -->
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<script src="script.js"></script>
+<script type="module" src="home-auth.js"></script>
+
+</body>
+</html>

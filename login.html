@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sign in to your Grocery account.">
+  <title>Sign In | Grocery</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="style_login.css">
+</head>
+<body>
+  <main id="container">
+    <form id="auth-form" data-auth-mode="signin">
+      <h1 id="SignInh2">Sign In</h1>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+      <button type="submit" id="btn1">Sign In</button>
+      <button type="button" id="password-reset">Forgot password? Send a reset link</button>
+      <p id="auth-message" role="status" aria-live="polite"></p>
+      <p>New to Grocery? <a href="user.html">Create an account</a></p>
+      <p><a href="index.html">Back to home</a></p>
+    </form>
+  </main>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>
